@@ -209,7 +209,7 @@ socket.on('enviar-mensaje', ( payload, callback ) => {
 })
 ````
 #
-### Broadcast - Ordenar el Código
+### 8.- Broadcast - Ordenar el Código
 Se realizará un controlador donde se tenga la conexión de socket, para ordenar el codigo
 
 En `sockets/contoller.js`

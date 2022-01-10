@@ -164,3 +164,23 @@ socket.on('enviar-mensaje', (payload ) => {
 })
 ````
 #
+### 6.- Emitir desde el Servidor - Escuchar en el Cliente
+En este punto lo que se quiere es abrir 2 pestañas en el navegador para luego enviar 1 mensaje de un cliente y que lo reenvie el servidor a ambos cliente
+
+En `models/server.js`
+* Eliminamos los mensajes por consola de conectar y desconectar.
+* Una vez recibido el mensaje del `payload` lo reenviaremos a todos los clientes.
+````
+socket.on('enviar-mensaje', (payload ) => {
+
+    this.io.emit('enviar-mensaje', payload);
+});
+````
+* Eliminamos los mensajes por consola de conectar y desconectar.
+* Para escuchar los mensajes que son emitidos del Servidor, agregamos `socket.on` con el evento `enviar-mensaje`, ademas mandamos un `console.log` con el `payload`.
+````
+socket.on('enviar-mensaje', (payload) =>{
+    console.log(payload)
+});
+````
+#

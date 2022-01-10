@@ -7,7 +7,7 @@ Websockets con Node.js, Express y Socket.io. Elementos utilizados:
 * __[Express](https://www.npmjs.com/package/express)__ - [Pagina Oficial](https://expressjs.com)
 * __[Doenv](https://www.npmjs.com/package/dotenv)__
 * __[Cors](https://www.npmjs.com/package/cors)__
-* __[Socket.io](https://www.npmjs.com/package/socket.io)__
+* __[Socket.io](https://www.npmjs.com/package/socket.io)__ - [Pagina Oficial](https://socket.io/docs/v4/)
 
 #
 Para reconstruir los modulos de node ejecute el siguiente comando.
@@ -59,5 +59,33 @@ En `public/index.html`
 * Agregamos la libreria de __socket.io__ en la pantalla __"Frontend"__, para verificar si esta todo correcto, verificandolo en el navegador, especificamente en __Network__.
 ````
 <script src="./socket.io/socket.io.js"></script>
+````
+#
+### 3.- Configuración de Socket.io - Frontend
+En este punto se realizará la conexión del __Frontend__ y mostrar en la consola del __Backend__ que un cliente se conecto
+
+En `models/server.js`
+* En el constructor agregamos el metodo que crearemos a continuación.
+````
+this.sockets();
+````
+* Creamos el metodo `sockets()`, copiamos la conexión que sale en la documentación `io.on('connection', socket => {});`.
+* Agregamos a la función copiada de la documentación un `console.log` donde nos mande que se conecto un cliente y con una id propia de __Socket.io__.
+* Agregamos una desconexión para saber cuando se desconecta el cliente.
+````
+sockets(){
+        this.io.on('connection', socket => { 
+            console.log('Cliente Conectado', socket.id );
+        
+            socket.on('disconnect', () => {
+                console.log('Cliente Desconectado', socket.id );
+            })
+        });
+    }
+````
+En __Frontend__ `public/js/socket-client.js`
+* Agregamos esto propio de __Socket.io__ para el cliente, esto hará que se conecte al servidor de socket y de esta manera la consola detectará un nuevo cliente.
+````
+const socket = io();
 ````
 #

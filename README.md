@@ -89,3 +89,33 @@ En __Frontend__ `public/js/socket-client.js`
 const socket = io();
 ````
 #
+### 4.- Mensaje de conexión y Desconexión - Cliente
+Aquí se hará un retoque en HTML para saber cuando se esté conectado en el Cliente
+
+En `public/index.htmal`
+* Se crea un parrafo, donde tenemos 2 span con diferentes mensajes.
+* Le creamos una id, para manejarlo con JS y la clase de __Boostrap__.
+````
+<p>
+   Server Status:
+   <span id="on" class="text-success">Online</span>
+   <span id="off" class="text-danger">Offline</span>
+</p>
+````
+En `public/js/socket-client.js`
+* Hacemos referencia al HTML que creamos.
+````
+const on = document.querySelector('#on');
+const off = document.querySelector('#off');
+````
+* En la conexión le agregamos un estilo de `display = "none"` para ocultar el elemento `offline`.
+* Lo hacemos de la misma forma en la desconexión pero al reves, agregandole el `display = "none"` al `online`, así cubrimos las dos funciones.
+````
+socket.on('connect', () => {
+    console.log('Conectado');
+
+    off.style.display = 'none';
+    on.style.display  = '';
+});
+````
+#

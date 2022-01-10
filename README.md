@@ -119,3 +119,48 @@ socket.on('connect', () => {
 });
 ````
 #
+### 5.- Emitir desde el Cliente - Escuchar en el Servidor
+Se desea emitir un evento desde el __Cliente__ que sea escuchado por el __Servidor__ 
+
+En `public/index.html`
+* Se crea un `input` con un `button` para enviar los eventos, usamos las clases de __Bootstrap__.
+````
+<div class="row">
+        <div class="col">
+            <input type="text" id="txtMensaje" class="form-control">
+        </div>
+        <div class="col">
+            <button id="btnEnviar" class="btn btn-primary">
+                Enviar
+            </button>
+        </div>
+    </div>
+````
+En `public/js/socket-client.js`
+* Hacemos referencia a los nuevos elementos creados en HTML con sus IDs.
+````
+const txtMensaje = document.querySelector('#txtMensaje');
+const btnEnviar  = document.querySelector('#btnEnviar');
+````
+* Realizamos un evento click, donde enviaremos el valor del input.
+* Se almacenará el mensaje en un objeto literiario, para luego emitirlo en el evento del socket.
+````
+btnEnviar.addEventListener( 'click', () =>{
+
+    const mensaje = txtMensaje.value;
+    const payload = {
+        mensaje,
+        id: '123ABC',
+        fecha: new Date().getTime()
+    }
+    socket.emit( 'enviar-mensaje', payload );
+});
+````
+En `models/server.js`
+* Vamos a querer escuchar el evento que es emitido en el __Cliente__, para esto escuchamos el evento de socket `enviar-mensaje` y recibimos en un __callback__ lo del `payload`, para luego imprimirlo por consola.
+````
+socket.on('enviar-mensaje', (payload ) => {
+        console.log(payload);
+})
+````
+#

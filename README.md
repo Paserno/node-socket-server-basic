@@ -184,3 +184,28 @@ socket.on('enviar-mensaje', (payload) =>{
 });
 ````
 #
+### 7.- Retroalimenación de emision del Cliente hacia el Servidor
+En el caso que se quiera emitir un mensaje desde el cliente y que se nos mande por ejemplo una id desde la BD o servidor
+
+En `public/js/socket-client.js`
+* En el evento del boton del __Frontend__ se agrega un tercer argumento que seria un callback.
+* La que recibirá el elemento del servidor en una impresión por consola.
+````
+socket.emit( 'enviar-mensaje', payload, ( id ) => {
+        console.log('Desde el Server', id);
+    });
+````
+En `models/server.js`
+* Al escuchar el mensaje en el servidor enviaremos un callback.
+* Por ejemplo un id, se puede mandar un objeto literario o primitivo en el __callback__.
+* De esta manera cuando se emita un mensaje del cliente solo ese cliente recibirá el objeto.
+````
+socket.on('enviar-mensaje', ( payload, callback ) => {
+
+        const id = 123456;
+        callback( { id, fecha: new Date().getTime() } );
+
+        // this.io.emit('enviar-mensaje', payload);
+})
+````
+#

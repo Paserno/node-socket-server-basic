@@ -209,3 +209,47 @@ socket.on('enviar-mensaje', ( payload, callback ) => {
 })
 ````
 #
+### Broadcast - Ordenar el Código
+Se realizará un controlador donde se tenga la conexión de socket, para ordenar el codigo
+
+En `sockets/contoller.js`
+* Creamos la nueva función `socketController()`, extraemos lo que tenemos en el la clase __Sevidor__, específicamente en el metodo `sockets()`.
+* Dejamos los `console.log` de conexión y desconexión.
+* En la parte de recibir el mensaje de `enviar-mensaje`, reenviamos la id y ademas en el emitir el mensaje a los demas __clientes__, necesitamos agregar `socket.broadcast.emit()` para enviarle a todos los clientes el mensaje, en lo contrario no se podria. _(Gracias al `.broadcast`)_
+````
+const socketController = (socket) => {
+
+    console.log('Cliente Conectado', socket.id );
+
+    socket.on('disconnect', () => {
+        console.log('Cliente Desconectado', socket.id );
+    });
+
+    socket.on('enviar-mensaje', (payload, callback) => {
+
+        const id = 123456;
+        callback( id );
+
+        socket.broadcast.emit('enviar-mensaje', payload);
+    })
+}
+````
+* Realizamos la exportación de la función.
+````
+module.exports = {
+    socketController
+}
+````
+En `models/server.js`
+* Importamos el `socketController`.
+````
+const { socketController } = require('../sockets/controller');
+````
+* Modificamos el metodo `sockets()` recibiendo la importación de `socketController`.
+````
+sockets(){
+        this.io.on('connection', socketController);
+    }
+````
+De esta manera queda igual el códgio solo mas ordenado.
+#

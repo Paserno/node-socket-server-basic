@@ -16,7 +16,9 @@ Para reconstruir los modulos de node ejecute el siguiente comando.
 npm install
 ````
 
-# 
+#
+> __Elemento Posterior 👀:__ __[Aplicación de Ticket con Socket.io](https://github.com/Paserno/node-socket-ticket)__ 
+#
 ### 1.- Inicio del Proyecto
 Al iniciar el proyecto de __Websockets__ se reutilizo el archivo `server.js` del anterior proyecto, ademas de lo siguiente:
 
